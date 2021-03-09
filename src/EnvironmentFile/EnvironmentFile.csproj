@@ -14,6 +14,7 @@
         <PackageProjectUrl>https://github.com/griffo-io/Configuration.Extensions.EnvironmentFile</PackageProjectUrl>
         <RepositoryUrl>https://github.com/griffo-io/Configuration.Extensions.EnvironmentFile</RepositoryUrl>
         <Product>Configuration.Extensions.EnvironmentFile</Product>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     </PropertyGroup>
 
     <PropertyGroup>
