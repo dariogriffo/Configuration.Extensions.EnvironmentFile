@@ -64,20 +64,22 @@ By default the variables are loaded from a file called `.env` that is placed in 
 You can have several files also loaded
 
 ```
-public static IHostBuilder CreateHostBuilder(string[] args) =>
+public static IHostBuilder CreateHostBuilder(string[] args)
+{
     Host
-	.CreateDefaultBuilder(args)
-    .ConfigureAppConfiguration((hostingContext, config) =>
-        {
-            config
-                .AddEnvironmentFile() // This loads configuration from '.env' file
-                .AddEnvironmentFile("database-config.env") // This loads configuration from 'database-config.env' file
-                .AddEnvironmentVariables();
-            })
-    .ConfigureWebHostDefaults(webBuilder =>
-	{
-        webBuilder.UseStartup<Startup>();
-    });
+        .CreateDefaultBuilder(args)
+        .ConfigureAppConfiguration((hostingContext, config) =>
+            {
+                config
+                    .AddEnvironmentFile() // This loads configuration from '.env' file
+                    .AddEnvironmentFile("database-config.env") // This loads configuration from 'database-config.env' file
+                    .AddEnvironmentVariables();
+                })
+        .ConfigureWebHostDefaults(webBuilder =>
+    	{
+            webBuilder.UseStartup<Startup>();
+        });
 
+}
 ```
 
