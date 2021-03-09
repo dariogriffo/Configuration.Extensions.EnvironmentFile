@@ -27,16 +27,14 @@ So many options but none matches that, so you can have them now, having a `.env`
 Install the package via Nuget
 
 ```
-Install-Package MediatR
-
+Install-Package Configuration.Extensions.EnvironmentFile
 ```
 
 or .Net core command line
 
 
 ```
-dotnet add package MediatR
-
+dotnet add package Configuration.Extensions.EnvironmentFile
 ```
 
 Then configure your app like:
@@ -55,7 +53,6 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
         {
             webBuilder.UseStartup<Startup>();
         });
-
 ```
 
 # Options
