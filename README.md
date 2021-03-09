@@ -1,4 +1,3 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/fe8xe21h78b1c6ij?svg=true)](https://ci.appveyor.com/project/dariogriffo/servicecollection-extensions-modules)
 [![NuGet](https://img.shields.io/nuget/v/Configuration.Extensions.EnvironmentFile.svg?style=flat)](https://www.nuget.org/packages/Configuration.Extensions.EnvironmentFile/) 
 [![GitHub license](https://img.shields.io/github/license/griffo-io/Configuration.Extensions.EnvironmentFile.svg)](https://raw.githubusercontent.com/griffo-io/Configuration.Extensions.EnvironmentFile/master/LICENSE)
 
