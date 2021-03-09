@@ -4,7 +4,7 @@
         <RootNamespace>Configuration.Extensions.EnvironmentFile</RootNamespace>
         <AssemblyName>Configuration.Extensions.EnvironmentFile</AssemblyName>
         <TargetFrameworks>netstandard2.0</TargetFrameworks>
-        <Version>0.1.0</Version>
+        <Version>1.0.0</Version>
         <Authors>https://github.com/griffo-io</Authors>
         <Company>https://github.com/griffo-io</Company>
         <Product>Configuration.Extensions.EnvironmentFile</Product>
