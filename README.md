@@ -69,17 +69,16 @@ public static IHostBuilder CreateHostBuilder(string[] args)
     Host
         .CreateDefaultBuilder(args)
         .ConfigureAppConfiguration((hostingContext, config) =>
-            {
-                config
-                    .AddEnvironmentFile() // This loads configuration from '.env' file
-                    .AddEnvironmentFile("database-config.env") // This loads configuration from 'database-config.env' file
-                    .AddEnvironmentVariables();
-                })
+        {
+            config
+                .AddEnvironmentFile() // This loads configuration from '.env' file
+                .AddEnvironmentFile("database-config.env") // This loads configuration from 'database-config.env' file
+                .AddEnvironmentVariables();
+        })
         .ConfigureWebHostDefaults(webBuilder =>
     	{
             webBuilder.UseStartup<Startup>();
         });
-
 }
 ```
 
