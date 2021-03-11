@@ -14,6 +14,7 @@ ConnectionStrings__Logs=User ID=root;Password=myPassword;Host=localhost;Port=543
 #Security section -- this line is omitted by the configuration provider
 Security__Jwt__Key=q2bflxWAHB4fAHEU
 Security__Jwt__ExpirationTime=00:05:00
+Security__Jwt__Audience=https://always-use-https.com #This comment will not be loaded as part of the value
 ```
 
 # Motivation
@@ -55,10 +56,10 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
         });
 ```
 
-# Options
-
-By default the variables are loaded from a file called `.env` that is placed in the same directory as your applications.
-You can have several files also loaded
+# Default behavior
+- The variables are loaded from a file called `.env` that is placed in the same directory as your applications.
+- Trimming is performed (usually spaces at the end are mistakes).
+- No quotes in values are trimmed (there is no need to add quotes, the library will handle `=` just fine).
 
 ```
 public static IHostBuilder CreateHostBuilder(string[] args)
@@ -68,8 +69,7 @@ public static IHostBuilder CreateHostBuilder(string[] args)
         .ConfigureAppConfiguration((hostingContext, config) =>
         {
             config
-                .AddEnvironmentFile() // This loads configuration from '.env' file
-                .AddEnvironmentFile("database-config.env") // This loads configuration from 'database-config.env' file
+                .AddEnvironmentFile(removeWrappingQuotes: true, trim: false)
                 .AddEnvironmentVariables();
         })
         .ConfigureWebHostDefaults(webBuilder =>
@@ -79,3 +79,28 @@ public static IHostBuilder CreateHostBuilder(string[] args)
 }
 ```
 
+
+# Load multiple files
+
+You can have several files also loaded, remember the last file will override the first one (if same variables are present)
+
+```
+public static IHostBuilder CreateHostBuilder(string[] args)
+{
+    Host
+        .CreateDefaultBuilder(args)
+        .ConfigureAppConfiguration((hostingContext, config) =>
+        {
+            config
+                .AddEnvironmentFile() // Configuring from '.env' file
+                .AddEnvironmentFile("database-config.env") // Overriding with 'database-config.env'
+                .AddEnvironmentVariables();  // Overriding with environment variables
+        })
+        .ConfigureWebHostDefaults(webBuilder =>
+    	{
+            webBuilder.UseStartup<Startup>();
+        });
+}
+```
+
+Logo Provided by [Vecteezy](https://vecteezy.com)
