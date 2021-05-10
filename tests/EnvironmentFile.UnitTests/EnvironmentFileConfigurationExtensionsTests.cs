@@ -35,6 +35,13 @@ namespace Configuration.Extensions.EnvironmentFile.UnitTests
         }
 
         [Fact]
+        public void AddEnvironmentFile_With_Prefix_Values_Are_Loaded_Correctly()
+        {
+            var configuration = new ConfigurationBuilder().AddEnvironmentFile(".env-with-prefix", prefix: "MyPrefix_").Build();
+            configuration.GetSection("Section1").Get<Section1>().Should().NotBeNull();
+        }
+
+        [Fact]
         public void AddEnvironmentFile_When_File_Has_Comments_They_Are_Skipped()
         {
             var configuration = new ConfigurationBuilder().AddEnvironmentFile(".env-with-comments").Build();

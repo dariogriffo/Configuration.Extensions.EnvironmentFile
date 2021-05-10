@@ -11,7 +11,8 @@ namespace Configuration.Extensions.EnvironmentFile
             this IConfigurationBuilder builder,
             string fileName = ".env",
             bool trim = true,
-            bool removeWrappingQuotes = true)
+            bool removeWrappingQuotes = true,
+            string prefix = null)
         {
             if (!File.Exists(fileName))
             {
@@ -22,6 +23,7 @@ namespace Configuration.Extensions.EnvironmentFile
                 File
                     .ReadAllLines(fileName)
                     .Select(x => x.TrimStart())
+                    .Select(x => string.IsNullOrWhiteSpace(prefix) ? x : x.Replace(prefix, string.Empty))
                     .Where(x => !x.StartsWith("#") && x.Contains("="));
 
             string ParseQuotes(string s)

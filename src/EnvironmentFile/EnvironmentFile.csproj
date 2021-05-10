@@ -4,7 +4,7 @@
         <RootNamespace>Configuration.Extensions.EnvironmentFile</RootNamespace>
         <AssemblyName>Configuration.Extensions.EnvironmentFile</AssemblyName>
         <TargetFrameworks>netstandard2.0</TargetFrameworks>
-        <Version>1.1.0</Version>
+        <Version>1.2.0</Version>
         <Authors>https://github.com/griffo-io</Authors>
         <Company>https://github.com/griffo-io</Company>
         <Product>Configuration.Extensions.EnvironmentFile</Product>
@@ -21,8 +21,7 @@
         <PackageIcon>images\icon.png</PackageIcon>
         <PackageTags>Configuration Environment .env</PackageTags>
         <PackageReleaseNotes>
-            Remove comments at the end of the line.
-            Allow trim configurable behaviour.
+            Allow variable prefixes.
         </PackageReleaseNotes>
         <PackageLicenseFile>license\license.txt</PackageLicenseFile>
     </PropertyGroup>
