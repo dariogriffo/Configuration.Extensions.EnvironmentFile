@@ -103,4 +103,29 @@ public static IHostBuilder CreateHostBuilder(string[] args)
 }
 ```
 
+
+# Variable prefixes
+
+You can specify variable prefixes to be omitted
+
+```
+public static IHostBuilder CreateHostBuilder(string[] args)
+{
+    Host
+        .CreateDefaultBuilder(args)
+        .ConfigureAppConfiguration((hostingContext, config) =>
+        {
+            config
+                .AddEnvironmentFile() // Configuring from '.env' file
+				.AddEnvironmentFile("with-prefix.env") // Variables like MyPrefix_MyVariable are loaded as MyPrefix_MyVariable
+                .AddEnvironmentFile("with-prefix.env", prefix: "MyPrefix_") // Variables like MyPrefix_MyVariable are loaded as MyVariable
+                .AddEnvironmentVariables();  // Overriding with environment variables
+        })
+        .ConfigureWebHostDefaults(webBuilder =>
+    	{
+            webBuilder.UseStartup<Startup>();
+        });
+}
+```
+
 Logo Provided by [Vecteezy](https://vecteezy.com)
