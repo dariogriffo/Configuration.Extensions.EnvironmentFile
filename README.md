@@ -117,7 +117,7 @@ public static IHostBuilder CreateHostBuilder(string[] args)
         {
             config
                 .AddEnvironmentFile() // Configuring from '.env' file
-				.AddEnvironmentFile("with-prefix.env") // Variables like MyPrefix_MyVariable are loaded as MyPrefix_MyVariable
+                .AddEnvironmentFile("with-prefix.env") // Variables like MyPrefix_MyVariable are loaded as MyPrefix_MyVariable
                 .AddEnvironmentFile("with-prefix.env", prefix: "MyPrefix_") // Variables like MyPrefix_MyVariable are loaded as MyVariable
                 .AddEnvironmentVariables();  // Overriding with environment variables
         })
