@@ -66,7 +66,7 @@ namespace Configuration.Extensions.EnvironmentFile.UnitTests
         public void AddEnvironmentFile_When_Configuration_Has_Comments_After_Variable_Value_File_Is_Correctly_Parsed()
         {
             var configuration = new ConfigurationBuilder().AddEnvironmentFile(".env-with-comments-at-end-of-line").Build();
-            configuration.GetConnectionString("WithComment").Should().Be("Value");
+            configuration.GetConnectionString("WithComment").Should().Be("http://google.com#comment");
         }
 
         [Fact]

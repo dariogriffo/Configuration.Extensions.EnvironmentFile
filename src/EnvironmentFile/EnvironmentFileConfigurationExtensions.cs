@@ -26,22 +26,21 @@ namespace Configuration.Extensions.EnvironmentFile
                     .Select(x => string.IsNullOrWhiteSpace(prefix) ? x : x.Replace(prefix, string.Empty))
                     .Where(x => !x.StartsWith("#") && x.Contains("="));
 
-            string ParseQuotes(string s)
+            string ParseQuotes(string line)
             {
                 if (!removeWrappingQuotes)
                 {
-                    return s;
+                    return line;
                 }
 
-                var parts = s.Split('=');
-                s = string.Join("=", parts.Skip(1));
-                return $"{parts[0]}={s.Trim('"')}";
+                var parts = line.Split('=');
+                line = string.Join("=", parts.Skip(1));
+                return $"{parts[0]}={line.Trim('"')}";
             }
 
-            string RemoveCommentsAtTheEndAndTrimIfNecessary(string s1)
+            string RemoveCommentsAtTheEndAndTrimIfNecessary(string line)
             {
-                var value = s1.Split('#')[0];
-                return trim ? value.Trim() : value;
+                return trim ? line.Trim() : line;
             }
 
             var configuration =
