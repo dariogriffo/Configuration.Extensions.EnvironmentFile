@@ -8,16 +8,16 @@ namespace Configuration.Extensions.EnvironmentFile
 {
     internal class EnvironmentFileConfigurationSource : IConfigurationSource
     {
-        internal EnvironmentFileConfigurationSource(IEnumerable<KeyValuePair<string, string>> initialData)
-        {
-            InitialData = initialData;
-        }
+        private readonly EnvironmentFileConfigurationProvider _provider;
 
-        internal IEnumerable<KeyValuePair<string, string>> InitialData { get; }
+        internal EnvironmentFileConfigurationSource(EnvironmentFileConfigurationProvider provider)
+        {
+            _provider = provider;
+        }
 
         public IConfigurationProvider Build(IConfigurationBuilder builder)
         {
-            return new EnvironmentFileConfigurationProvider(this);
+            return _provider;
         }
     }
 }

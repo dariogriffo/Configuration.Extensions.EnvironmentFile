@@ -12,45 +12,29 @@ namespace Configuration.Extensions.EnvironmentFile
             string fileName = ".env",
             bool trim = true,
             bool removeWrappingQuotes = true,
-            string prefix = null)
+            string prefix = null,
+            bool reloadOnChange = false)
         {
-            if (!File.Exists(fileName))
+            
+            var filePath = fileName;
+            if (!Path.IsPathRooted(fileName))
+            {
+                var directory = builder.Properties.TryGetValue("FileProvider", out var p) && p is FileConfigurationProvider configurationProvider
+                    ? Path.GetDirectoryName(configurationProvider.Source.Path)
+                    : Directory.GetCurrentDirectory();
+
+                filePath = Path.Combine(directory, fileName);
+            }
+            
+            if (!File.Exists(filePath))
             {
                 return builder;
             }
+            var provider =
+                new EnvironmentFileConfigurationProvider(filePath, trim, removeWrappingQuotes, prefix, reloadOnChange);
 
-            var nonCommentLinesWithPropertyValues =
-                File
-                    .ReadAllLines(fileName)
-                    .Select(x => x.TrimStart())
-                    .Select(x => string.IsNullOrWhiteSpace(prefix) ? x : x.Replace(prefix, string.Empty))
-                    .Where(x => !x.StartsWith("#") && x.Contains("="));
-
-            string ParseQuotes(string line)
-            {
-                if (!removeWrappingQuotes)
-                {
-                    return line;
-                }
-
-                var parts = line.Split('=');
-                line = string.Join("=", parts.Skip(1));
-                return $"{parts[0]}={line.Trim('"')}";
-            }
-
-            string RemoveCommentsAtTheEndAndTrimIfNecessary(string line)
-            {
-                return trim ? line.Trim() : line;
-            }
-
-            var configuration =
-                nonCommentLinesWithPropertyValues
-                .Select(ParseQuotes)
-                .Select(RemoveCommentsAtTheEndAndTrimIfNecessary)
-                .Select(x => x.Split('='))
-                .Select(x => new KeyValuePair<string, string>(x[0].Replace("__", ":"), string.Join("=", x.Skip(1))));
-
-            return builder.Add(new EnvironmentFileConfigurationSource(configuration));
+            return builder.Add(new EnvironmentFileConfigurationSource(provider));
+            
         }
     }
 }
