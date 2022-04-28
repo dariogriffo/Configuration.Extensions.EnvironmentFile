@@ -21,7 +21,7 @@
         <PackageIcon>images\icon.png</PackageIcon>
         <PackageTags>Configuration Environment .env</PackageTags>
         <PackageReleaseNotes>
-            Added automatic reload on file change.
+            Automatic reload on file change.
         </PackageReleaseNotes>
         <PackageLicenseFile>license\license.txt</PackageLicenseFile>        
     </PropertyGroup>
