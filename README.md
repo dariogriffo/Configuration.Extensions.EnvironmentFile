@@ -14,7 +14,7 @@ ConnectionStrings__Logs=User ID=root;Password=myPassword;Host=localhost;Port=543
 #Security section -- this line is omitted by the configuration provider
 Security__Jwt__Key=q2bflxWAHB4fAHEU
 Security__Jwt__ExpirationTime=00:05:00
-Security__Jwt__Audience=https://always-use-https.com #This comment will not be loaded as part of the value
+Security__Jwt__Audience=https://always-use-https.com
 ```
 
 # Motivation
