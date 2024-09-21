@@ -1,7 +1,7 @@
-[![NuGet](https://img.shields.io/nuget/v/Configuration.Extensions.EnvironmentFile.svg?style=flat)](https://www.nuget.org/packages/Configuration.Extensions.EnvironmentFile/) 
-[![GitHub license](https://img.shields.io/github/license/griffo-io/Configuration.Extensions.EnvironmentFile.svg)](https://raw.githubusercontent.com/griffo-io/Configuration.Extensions.EnvironmentFile/master/LICENSE)
 
-[![N|Solid](https://avatars2.githubusercontent.com/u/39886363?s=200&v=4)](https://github.com/griffo-io/Configuration.Extensions.EnvironmentFile)
+[![NuGet Info](https://img.shields.io/nuget/dt/Configuration.Extensions.EnvironmentFile)](https://www.nuget.org/packages/Configuration.Extensions.EnvironmentFile/)
+![GitHub License](https://img.shields.io/github/license/dariogriffo/Configuration.Extensions.EnvironmentFile)
+![CI](https://github.com/dariogriffo/Configuration.Extensions.EnvironmentFile/workflows/CI/badge.svg)
 
 
 # Configuration.Extensions.EnvironmentFile

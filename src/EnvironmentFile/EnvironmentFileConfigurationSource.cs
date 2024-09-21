@@ -1,23 +1,22 @@
-﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
 
-[assembly: InternalsVisibleTo("Configuration.Extensions.EnvironmentFile.UnitTests")]
+namespace Configuration.Extensions.EnvironmentFile;
 
-namespace Configuration.Extensions.EnvironmentFile
+public class EnvironmentFileConfigurationSource : FileConfigurationSource
 {
-    internal class EnvironmentFileConfigurationSource : IConfigurationSource
+    public EnvironmentFileConfigurationSource()
     {
-        private readonly EnvironmentFileConfigurationProvider _provider;
+        Path = ".env";
+    }
 
-        internal EnvironmentFileConfigurationSource(EnvironmentFileConfigurationProvider provider)
-        {
-            _provider = provider;
-        }
+    internal string? Prefix { get; set; }
+    internal bool RemoveWrappingQuotes { get; set; } = true;
+    internal bool Trim { get; set; } = true;
 
-        public IConfigurationProvider Build(IConfigurationBuilder builder)
-        {
-            return _provider;
-        }
+    public override IConfigurationProvider Build(IConfigurationBuilder builder)
+    {
+        EnsureDefaults(builder);
+        return new EnvironmentFileConfigurationProvider(this, Trim, RemoveWrappingQuotes, Prefix);
     }
 }

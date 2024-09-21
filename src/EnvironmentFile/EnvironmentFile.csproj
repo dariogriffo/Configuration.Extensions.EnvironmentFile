@@ -4,39 +4,51 @@
         <RootNamespace>Configuration.Extensions.EnvironmentFile</RootNamespace>
         <AssemblyName>Configuration.Extensions.EnvironmentFile</AssemblyName>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>1.3.0</Version>
+        <Version>2.0.0</Version>
         <Authors>https://github.com/dariogriffo</Authors>
         <Company>https://github.com/dariogriffo</Company>
         <Product>Configuration.Extensions.EnvironmentFile</Product>
         <Copyright>https://github.com/dariogriffo</Copyright>
         <Description>Unix style EnvironmentFile to configure applications</Description>
-        <LicenseUrl>https://raw.githubusercontent.com/dariogriffo/Configuration.Extensions.EnvironmentFile/master/LICENSE</LicenseUrl>
+        <LicenseUrl>https://raw.githubusercontent.com/dariogriffo/Configuration.Extensions.EnvironmentFile/main/LICENSE</LicenseUrl>
         <PackageProjectUrl>https://github.com/dariogriffo/Configuration.Extensions.EnvironmentFile</PackageProjectUrl>
         <RepositoryUrl>https://github.com/dariogriffo/Configuration.Extensions.EnvironmentFile</RepositoryUrl>
         <Product>Configuration.Extensions.EnvironmentFile</Product>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    </PropertyGroup>
-
-    <PropertyGroup>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
         <PackageIcon>images\icon.png</PackageIcon>
         <PackageTags>Configuration Environment .env</PackageTags>
         <PackageReleaseNotes>
-            Automatic reload on file change.
+            Dropped support for Microsoft.Extensions.Configuration &lt; 3.0.0
         </PackageReleaseNotes>
-        <PackageLicenseFile>license\license.txt</PackageLicenseFile>        
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageIcon>images\icon.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <RepositoryType>git</RepositoryType>
+        <IncludeSymbols>true</IncludeSymbols>
     </PropertyGroup>
     <ItemGroup>
-        <None Include="licenses\license.txt" Pack="true" PackagePath="license" />
-        <None Include="images\icon.png" Pack="true" PackagePath="images" />
-        <None Include="README.md" Pack="true" PackagePath="\" />
-        <None Update="README.md">
+        <None Include="$(SolutionDir)LICENSE" Pack="true" PackagePath="license">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="$(SolutionDir)README.md" Pack="true" PackagePath="\">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="images\icon.png" Pack="true" PackagePath="images">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="[2.0.0,)" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="[2.0.0,)" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="[3.0.0,)"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="[3.0.0,)"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>$(AssemblyName).UnitTests</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+    
 </Project>
