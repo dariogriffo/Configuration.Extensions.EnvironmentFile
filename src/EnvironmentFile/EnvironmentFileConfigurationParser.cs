@@ -32,7 +32,13 @@ internal static class EnvironmentFileConfigurationParser
                 string.Join("=", x.Skip(1))
             ));
 
-        return configuration.ToDictionary(x => x.Key, x => x.Value);
+        Dictionary<string, string> result = new();
+        foreach (KeyValuePair<string, string> keyValuePair in configuration)
+        {
+            result[keyValuePair.Key] = keyValuePair.Value;
+        }
+
+        return result;
 
         string ParseQuotes(string line)
         {

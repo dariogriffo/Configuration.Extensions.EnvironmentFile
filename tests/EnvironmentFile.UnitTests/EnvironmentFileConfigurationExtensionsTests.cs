@@ -123,6 +123,15 @@ public class EnvironmentFileConfigurationExtensionsTests
     }
 
     [Fact]
+    public void AddEnvironmentFile_DuplicatedValues_LastOneWins()
+    {
+        IConfigurationRoot configuration = new ConfigurationBuilder()
+            .AddEnvironmentFile(".env-duplicated-values", trim: false, removeWrappingQuotes: true)
+            .Build();
+        configuration.GetConnectionString("Test").Should().Be("LastOne");
+    }
+
+    [Fact]
     public void AddEnvironmentFile_OnFileChange_ReloadsData()
     {
         IConfigurationRoot configuration = new ConfigurationBuilder()
