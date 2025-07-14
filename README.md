@@ -5,24 +5,41 @@
 
 
 # Configuration.Extensions.EnvironmentFile
+**Add support for Unix-style `.env` files in your .NET applications.**
 
-Unix style Environment files to configure .Net core applications
+This package lets you use `.env` files as a configuration source. 
 
-```
+```env
 ConnectionStrings__Logs=User ID=root;Password=myPassword;Host=localhost;Port=5432;Database=myDataBase;
 
-#Security section -- this line is omitted by the configuration provider
+# Comments are ignored
 Security__Jwt__Key=q2bflxWAHB4fAHEU
 Security__Jwt__ExpirationTime=00:05:00
 Security__Jwt__Audience=https://always-use-https.com
 ```
 
 # Motivation
+This package bridges the gap between development and production environments for 
+.NET applications deployed as **Unix system services** on controlled servers.
 
-Having a development environment that resembles as much as possible to production is the best.
-In Unix servers, you can configure your background services with an environment file that has the format specified above, but what about in local?
-So many options but none matches that, so you can have them now, having a `.env` file (or more) copied with your files on build and loaded in the configuration.
+When deploying .NET applications to Unix/Linux servers as systemd services, 
+daemon processes, or other system-level services, the standard approach is to 
+use environment files (`.env`) for configuration management. These files are 
+referenced directly by service definitions and provide a clean, relatively secure way to 
+manage application settings on controlled infrastructure.
 
+However, .NET's built-in configuration providers do not support this Unix 
+environment file format, creating a disconnect between your development 
+environment and production deployment. This forces developers to use alternative 
+configuration approaches during development that don't match the actual 
+production setup.
+
+# Security Considerations
+- **Never commit `.env` files** - Add them to your `.gitignore` immediately
+- **Restrict file permissions** - In production, place `.env` files in secure directories (e.g., `/etc/systemd/system/`) with read access limited to the service user (root)
+- **Or level up with secrets management** - For production workloads, consider upgrading to dedicated solutions like HashiCorp Vault (see [VaultSharp](https://github.com/rajanadar/VaultSharp) for .NET integration)
+
+ 
 # How to use it
 
 Install the package via Nuget
@@ -31,7 +48,7 @@ Install the package via Nuget
 Install-Package Configuration.Extensions.EnvironmentFile
 ```
 
-or .Net core command line
+or .NET command line
 
 
 ```
@@ -56,27 +73,23 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
         });
 ```
 
-# Default behavior
+or with the minimal hosting model (.NET 6+): 
+
+```
+var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddEnvironmentFile();
+```
+
+
+# Default behavior (in development)
 - The variables are loaded from a file called `.env` that is placed in the same directory as your applications.
 - Trimming is performed (usually spaces at the end are mistakes).
 - No quotes in values are trimmed (there is no need to add quotes, the library will handle `=` just fine).
 
 ```
-public static IHostBuilder CreateHostBuilder(string[] args)
-{
-    Host
-        .CreateDefaultBuilder(args)
-        .ConfigureAppConfiguration((hostingContext, config) =>
-        {
-            config
-                .AddEnvironmentFile(removeWrappingQuotes: true, trim: false)
-                .AddEnvironmentVariables();
-        })
-        .ConfigureWebHostDefaults(webBuilder =>
-    	{
-            webBuilder.UseStartup<Startup>();
-        });
-}
+config
+  .AddEnvironmentFile(removeWrappingQuotes: true, trim: false)
+  .AddEnvironmentVariables();
 ```
 
 
@@ -85,22 +98,10 @@ public static IHostBuilder CreateHostBuilder(string[] args)
 You can have several files also loaded, remember the last file will override the first one (if same variables are present)
 
 ```
-public static IHostBuilder CreateHostBuilder(string[] args)
-{
-    Host
-        .CreateDefaultBuilder(args)
-        .ConfigureAppConfiguration((hostingContext, config) =>
-        {
-            config
-                .AddEnvironmentFile() // Configuring from '.env' file
-                .AddEnvironmentFile("database-config.env") // Overriding with 'database-config.env'
-                .AddEnvironmentVariables();  // Overriding with environment variables
-        })
-        .ConfigureWebHostDefaults(webBuilder =>
-    	{
-            webBuilder.UseStartup<Startup>();
-        });
-}
+config
+  .AddEnvironmentFile() // Configuring from '.env' file
+  .AddEnvironmentFile("database-config.env") // Overriding with 'database-config.env'
+  .AddEnvironmentVariables();  // Overriding with environment variables
 ```
 
 
@@ -109,23 +110,11 @@ public static IHostBuilder CreateHostBuilder(string[] args)
 You can specify variable prefixes to be omitted
 
 ```
-public static IHostBuilder CreateHostBuilder(string[] args)
-{
-    Host
-        .CreateDefaultBuilder(args)
-        .ConfigureAppConfiguration((hostingContext, config) =>
-        {
-            config
-                .AddEnvironmentFile() // Configuring from '.env' file
-                .AddEnvironmentFile("with-prefix.env") // Variables like MyPrefix_MyVariable are loaded as MyPrefix_MyVariable
-                .AddEnvironmentFile("with-prefix.env", prefix: "MyPrefix_") // Variables like MyPrefix_MyVariable are loaded as MyVariable
-                .AddEnvironmentVariables();  // Overriding with environment variables
-        })
-        .ConfigureWebHostDefaults(webBuilder =>
-    	{
-            webBuilder.UseStartup<Startup>();
-        });
-}
+ config
+   .AddEnvironmentFile() // Configuring from '.env' file
+   .AddEnvironmentFile("with-prefix.env") // Variables like MyPrefix_MyVariable are loaded as MyPrefix_MyVariable
+   .AddEnvironmentFile("with-prefix.env", prefix: "MyPrefix_") // Variables like MyPrefix_MyVariable are loaded as MyVariable
+   .AddEnvironmentVariables();  // Overriding with environment variables
 ```
 
 
@@ -134,22 +123,10 @@ public static IHostBuilder CreateHostBuilder(string[] args)
 Configuration can automatically update on file changes
 
 ```
-public static IHostBuilder CreateHostBuilder(string[] args)
-{
-    Host
-        .CreateDefaultBuilder(args)
-        .ConfigureAppConfiguration((hostingContext, config) =>
-        {
-            config
-                .AddEnvironmentFile() // Configuring from '.env' file
-                .AddEnvironmentFile("reloadable.env", reloadOnChange: true) // This file will be watched for changes
-                .AddEnvironmentVariables();  // Overriding with environment variables
-        })
-        .ConfigureWebHostDefaults(webBuilder =>
-    	{
-            webBuilder.UseStartup<Startup>();
-        });
-}
+config
+  .AddEnvironmentFile() // Configuring from '.env' file
+  .AddEnvironmentFile("reloadable.env", reloadOnChange: true) // This file will be watched for changes
+  .AddEnvironmentVariables();  // Overriding with environment variables
 ```
 
 Logo Provided by [Vecteezy](https://vecteezy.com)
